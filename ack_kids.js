@@ -146,7 +146,7 @@
                 const age = parseInt(ageInput.value);
                 if (age < 4 || age > 17) {
                     valid = false;
-                    alert('Child age must be between 4 and 17 years');
+                    alert('Child age must be between 4 and 18 years');
                     return;
                 }
                 
@@ -303,14 +303,18 @@
                 paymentMethod: registrationData.paymentMethod || 'church'
             };
             
-            // Generate sequential registration numbers
-            registrationData.children.forEach((child, index) => {
-                const regNumber = nextRegistrationNumber++;
-                registrationData.registrationNumbers.push(regNumber);
-            });
+            // Generate sequential registration numbers across all parents
+    console.log('Starting registration numbers from:', nextRegistrationNumber);
+    
+    registrationData.children.forEach((child, index) => {
+        const regNumber = nextRegistrationNumber++;
+        registrationData.registrationNumbers.push(regNumber);
+        console.log(`Assigned registration number ${regNumber} to child ${child.name}`);
+    });
             
-            // Save to localStorage for persistence
-            localStorage.setItem('vbs2025_next_registration_number', nextRegistrationNumber.toString());
+              // Save the updated registration number to localStorage for next registration
+    localStorage.setItem('vbs2025_next_registration_number', nextRegistrationNumber.toString());
+    console.log('Saved next registration number:', nextRegistrationNumber);
             
             generateRegistrationCards();
             updatePaymentStatusReminder();
@@ -371,37 +375,40 @@
             // });
         }
 
-        function generateRegistrationCards() {
-            const container = document.getElementById('registrationCardsContainer');
-            container.innerHTML = '';
-            
-            registrationData.children.forEach((child, index) => {
-                const card = document.createElement('div');
-                card.className = 'registration-card';
-                card.id = `card-${index}`;
-                
-                const initials = child.name.split(' ').map(n => n[0]).join('').toUpperCase();
-                const regNumber = registrationData.registrationNumbers[index];
-                const formattedNumber = regNumber.toString().padStart(3, '0');
-                
-                card.innerHTML = `
-                    <div class="card-header">
-                        <h3>VBS 2025</h3>
-                        <div class="church-name">ACK St Peters Nyeri</div>
-                    </div>
-                    <div class="child-initials">${initials}</div>
-                    <div class="card-details">
-                        <p><strong>Child's Name:</strong> ${child.name}</p>
-                        <p><strong>Age:</strong> ${child.age} years</p>
-                        <p><strong>Parent's Name:</strong> ${registrationData.parentName}</p>
-                        <p><strong>Parent's Contact:</strong> ${registrationData.parentPhone}</p>
-                        <p><strong>Emergency Phone:</strong> ${registrationData.emergencyPhone}</p>
-                        <p><strong>Registration ID:</strong> ${formattedNumber}</p>
-                    </div>
-                `;
-                container.appendChild(card);
-            });
-        }
+     function generateRegistrationCards() {
+    const container = document.getElementById('registrationCardsContainer');
+    container.innerHTML = '';
+    
+    registrationData.children.forEach((child, index) => {
+        const card = document.createElement('div');
+        card.className = 'registration-card';
+        card.id = `card-${index}`;
+        
+        const initials = child.name.split(' ').map(n => n[0]).join('').toUpperCase();
+        const regNumber = registrationData.registrationNumbers[index];
+        const formattedNumber = regNumber.toString().padStart(3, '0');
+        
+        card.innerHTML = `
+            <div class="card-header">
+                <h3>VBS 2025</h3>
+                <div class="church-name">ACK St Peters Nyeri</div>
+            </div>
+            <div class="child-initials">${initials}</div>
+            <div class="card-details">
+                <p><strong>Child's Name:</strong> ${child.name}</p>
+                <p><strong>Age:</strong> ${child.age} years</p>
+                <p><strong>Parent's Name:</strong> ${registrationData.parentName}</p>
+                <p><strong>Emergency Contact:</strong> ${registrationData.emergencyName}</p>
+                <p><strong>Emergency Phone:</strong> ${registrationData.emergencyPhone}</p>
+                <p><strong>Registration Date:</strong> ${registrationData.registrationDate}</p>
+                <p><strong>Registration #:</strong> ${formattedNumber}</p>
+                <p><strong>Unique ID:</strong> VBS-2025-${formattedNumber}</p>
+            </div>
+            <div class="unique-number">Registration #: ${formattedNumber}</div>
+        `;
+        container.appendChild(card);
+    });
+}
 
         function downloadAllCards() {
             const { jsPDF } = window.jspdf;
