@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ACKStPetersNyeriVBS</title>
+    <link rel="icon" type="image/x-icon" href="7b08bacf-6ef9-4775-b0f1-89a6c272d9cf.jpg">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link rel="stylesheet" href="ack_kids.css">
+    <script src="ack_kids.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <!-- Countdown Timer -->
+        <div class="countdown-container">
+            <div class="countdown-title"> VBS 2025 Starts In </div>
+            <div class="countdown-timer">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">00</span>
+                    <span class="countdown-label">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">00</span>
+                    <span class="countdown-label">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">00</span>
+                    <span class="countdown-label">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">00</span>
+                    <span class="countdown-label">Seconds</span>
+                </div>
+            </div>
+            <div class="event-details">
+                📅 November 24-29, 2025 | 🕘 8:00 AM - 4:30 PM Daily | 📍 ACK St Peters Church, Nyeri
+            </div>
+        </div>
+
+        <!-- Hero Section -->
+        <section id="home" class="section active">
+            <div class="background-slider">
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1549056572-75914d6d7e1a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1503676260728-1c00da094a0b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1511895426328-dc8714191300?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1491013516836-7db643ee125a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1531263060782-b430de4d3b5a?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80')"></div>
+            </div>
+            <div class="overlay"></div>
+            <div class="hero-content">
+                <h1>ACK St Peters Nyeri</h1>
+                <div class="theme">"The Parables Of Jesus Christ"</div>
+                <div class="welcome-message">
+                    <em>Welcome dear parents! We're excited to invite your children to our Vacation Bible School 2025. 
+                    Join us for a week of fun, learning, and spiritual growth as we explore The Parables of Jesus Christ .</em>
+                </div>
+
+                <div class="register-link-container">
+                    <button class="register-now-link" onclick="showSection('part1')">
+                        Register Now <span class="arrow-icon">→</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Part 1: Parent & Child Information -->
+        <section id="part1" class="section">
+            <div class="progress-bar">
+                <div class="progress-step active">1<span class="step-label">Child Info</span></div>
+                <div class="progress-step">2<span class="step-label">Payment</span></div>
+                <div class="progress-step">3<span class="step-label">Consent</span></div>
+                <div class="progress-step">4<span class="step-label">Complete</span></div>
+            </div>
+            
+            <h2><em>Parent & Children Information</em></h2>
+            <form id="parentInfoForm">
+                <div class="form-group">
+                    <label for="parentName"><em>Parent's Full Name *</em></label>
+                    <input type="text" id="parentName" name="parentName" required placeholder="Enter full name">
+                </div>
+                
+                <div class="form-group">
+                    <label for="parentPhone"><em>Parent's Phone Number *</em></label>
+                    <input type="tel" id="parentPhone" name="parentPhone" required placeholder="07XXXXXXXX">
+                </div>
+
+                <h3 style="color: #333; margin: 25px 0 15px; text-align: center;">Children Information</h3>
+                
+                <div id="childrenList" class="children-list">
+                    <!-- Children will be added here dynamically -->
+                </div>
+                
+                <button type="button" class="add-child-btn" onclick="addChild()">+ Add Another Child</button>
+                
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" onclick="validateChildren()">Continue to Payment</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Part 2: Payment Method -->
+        <section id="part2" class="section">
+            <div class="progress-bar">
+                <div class="progress-step">1<span class="step-label">Child Info</span></div>
+                <div class="progress-step active">2<span class="step-label">Payment</span></div>
+                <div class="progress-step">3<span class="step-label">Consent</span></div>
+                <div class="progress-step">4<span class="step-label">Complete</span></div>
+            </div>
+            
+            <h2><em>Payment Options</em></h2>
+            
+            <!-- Payment Reminder -->
+            <div class="payment-reminder">
+                <div class="reminder-title">💰 Payment Reminder</div>
+                <div class="reminder-message">
+                    <strong>Registration Fee: KSh 200 per child (Minimum)</strong><br>
+                    Complete your payment to secure your child's spot. You can pay via M-Pesa or at the church office.
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label><em>Number of Children: <span id="childrenCount">0</span></em></label>
+                <label><em>Total Amount: KSh <span id="totalAmount">0</span></em></label>
+            </div>
+
+            <div class="payment-options">
+                <div class="payment-option" onclick="selectPaymentOption('phone')">
+                    <strong>📱 Pay via Phone Number</strong>
+                    <div class="payment-details">
+                        <p>Click the button below to reveal payment number</p>
+                        <button type="button" class="reveal-btn" onclick="revealPaymentNumber('phone')">Reveal Number</button>
+                        <div id="phoneDetails" style="display: none; margin-top: 10px;">
+                            <p><strong>Send to:</strong> <span id="paymentNumber">*** *** ***</span></p>
+                            <p><strong>Amount:</strong> KSh <span id="phoneAmount">0</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="payment-option" onclick="selectPaymentOption('paybill')">
+                    <strong>🏦 Pay via PayBill</strong>
+                    <div class="payment-details">
+                        <p>Click the button below to reveal PayBill details</p>
+                        <button type="button" class="reveal-btn" onclick="revealPaymentNumber('paybill')">Reveal Details</button>
+                        <div id="paybillDetails" style="display: none; margin-top: 10px;">
+                            <p><strong>Business No:</strong> <span id="businessNumber">*** ***</span></p>
+                            <p><strong>Account No:</strong> <span id="accountNumber">*** *** *** ***</span></p>
+                            <p><strong>Amount:</strong> KSh <span id="paybillAmount">0</span></p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="payment-option" onclick="selectPaymentOption('later')">
+                    <strong>⛪ Pay at Church</strong>
+                    <div class="payment-details">
+                        Visit our church office to complete your payment in person.
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group" id="paymentConfirmation" style="display: none;">
+                <label for="payerName"><em>Your Name for Confirmation *</em></label>
+                <input type="text" id="payerName" placeholder="Enter your name as it appears on M-Pesa">
+                
+                <label for="payerPhone"><em>Your M-Pesa Phone Number *</em></label>
+                <input type="tel" id="payerPhone" placeholder="07XXXXXXXX">
+            </div>
+            
+            <div class="btn-group" style="flex-direction: column;">
+                <button type="button" class="btn btn-primary" onclick="processPayment()" style="margin-bottom: 10px;">
+                    <em>Confirm Payment</em>
+                </button>
+                <button type="button" class="btn btn-secondary" onclick="payLater()">
+                    <em>I'll Pay at Church</em>
+                </button>
+            </div>
+        </section>
+
+        <!-- Part 3: Consent Form -->
+        <section id="part3" class="section">
+            <div class="progress-bar">
+                <div class="progress-step">1<span class="step-label">Child Info</span></div>
+                <div class="progress-step">2<span class="step-label">Payment</span></div>
+                <div class="progress-step active">3<span class="step-label">Consent</span></div>
+                <div class="progress-step">4<span class="step-label">Complete</span></div>
+            </div>
+            
+            <h2><em>Emergency Information</em></h2>
+            <form id="consentForm">
+                <div class="form-group">
+                    <label for="emergencyName"><em>Emergency Contact Name *</em></label>
+                    <input type="text" id="emergencyName" name="emergencyName" required placeholder="Full name of emergency contact">
+                </div>
+                
+                <div class="form-group">
+                    <label for="emergencyPhone"><em>Emergency Contact Phone *</em></label>
+                    <input type="tel" id="emergencyPhone" name="emergencyPhone" required placeholder="07XXXXXXXX">
+                </div>
+                
+                <div class="form-group">
+                    <label for="relationship"><em>Relationship to Child *</em></label>
+                    <input type="text" id="relationship" name="relationship" required placeholder="e.g., Father, Mother, Guardian">
+                </div>
+                
+                <!-- Photo Consent Section -->
+                <div class="photo-consent-section">
+                    <label class="photo-consent-label">
+                        <input type="checkbox" class="consent-checkbox" name="photoConsent" required>
+                        I give consent for my child's photo to be taken during VBS activities
+                    </label>
+                    <small style="color: #666; display: block; margin-top: 8px;">
+                        This helps us capture precious memories of your child's VBS experience
+                    </small>
+                </div>
+                
+                <div class="btn-group">
+                    <button type="button" class="btn btn-primary" onclick="completeRegistration()">Complete Registration</button>
+                </div>
+            </form>
+        </section>
+
+        <!-- Success Section -->
+        <section id="success" class="section success-section">
+            <div class="success-icon">✓</div>
+            <h2><em>Registration Successful!</em></h2>
+            <p style="font-style: italic; font-size: clamp(1em, 3vw, 1.2em); margin-bottom: 15px;">Thank you for registering your children for VBS 2025 at ACK St Peters Nyeri.</p>
+            <p style="font-style: italic; font-size: clamp(0.9em, 2.5vw, 1.1em); margin-bottom: 25px;"><strong>"Train up a child in the way he should go, and when he is old he will not depart from it." - Proverbs 22:6</strong></p>
+            
+            <!-- Payment Status Reminder -->
+            <div class="payment-reminder" id="paymentStatusReminder">
+                <!-- Dynamic content will be inserted here -->
+            </div>
+            
+            <div id="registrationCardsContainer">
+                <!-- Registration cards will be generated here -->
+            </div>
+            
+            <button class="download-btn" onclick="downloadAllCards()">Download All Registration Cards (PDF)</button>
+            <br>
+            <button class="btn btn-secondary" onclick="showSection('home')" style="margin-top: 15px;">
+                Back to Home
+            </button>
+        </section>
+    </div>
+
+   
+</body>
+</html>
