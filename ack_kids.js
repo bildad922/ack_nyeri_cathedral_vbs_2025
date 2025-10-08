@@ -99,7 +99,7 @@
                 </div>
                 <div class="form-group">
                     <label><em>Child's Age *</em></label>
-                    <input type="number" class="child-age" min="4" max="17" required placeholder="Age between 4-17" value="${childData ? childData.age : ''}">
+                    <input type="number" class="child-age" min="4" max="18" required placeholder="Age between 4-18" value="${childData ? childData.age : ''}">
                 </div>
                 <div class="form-group">
                     <label><em>Allergies or Medical Conditions</em></label>
@@ -272,23 +272,55 @@
             return phoneRegex.test(phone);
         }
 
-        function completeRegistration() {
-            const parentName = document.getElementById('parentName').value;
-            const parentPhone = document.getElementById('parentPhone').value;
-            const emergencyName = document.getElementById('emergencyName').value;
-            const emergencyPhone = document.getElementById('emergencyPhone').value;
-            const relationship = document.getElementById('relationship').value;
-            
-            if (!parentName || !parentPhone || !emergencyName || !emergencyPhone || !relationship) {
-                alert('Please fill in all required fields');
-                return;
+       
+// Initialize the application
+document.addEventListener('DOMContentLoaded', function() {
+    // Load next registration number from localStorage
+    // This ensures sequential numbering across all registrations
+    const savedNumber = localStorage.getItem('vbs2025_next_registration_number');
+    nextRegistrationNumber = savedNumber ? parseInt(savedNumber) : 1;
+    
+    console.log('Next registration number loaded:', nextRegistrationNumber);
+    
+    // Add first child by default
+    addChild();
+    
+    // Form animations
+    const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                const target = mutation.target;
+                if (target.classList.contains('active')) {
+                    const formGroups = target.querySelectorAll('.form-group');
+                    formGroups.forEach((group, index) => {
+                        group.style.animationDelay = `${(index + 1) * 0.1}s`;
+                    });
+                }
             }
-            
-            if (!validatePhone(parentPhone) || !validatePhone(emergencyPhone)) {
-                alert('Please enter valid phone numbers');
-                return;
-            }
-            
+        });
+    });
+    
+    document.querySelectorAll('.section').forEach(section => {
+        observer.observe(section, { attributes: true });
+    });
+});
+
+function completeRegistration() {
+    const parentName = document.getElementById('parentName').value;
+    const parentPhone = document.getElementById('parentPhone').value;
+    const emergencyName = document.getElementById('emergencyName').value;
+    const emergencyPhone = document.getElementById('emergencyPhone').value;
+    const relationship = document.getElementById('relationship').value;
+    
+    if (!parentName || !parentPhone || !emergencyName || !emergencyPhone || !relationship) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    if (!validatePhone(parentPhone) || !validatePhone(emergencyPhone)) {
+        alert('Please enter valid phone numbers');
+        return;
+    }
             registrationData = {
                 parentName: parentName,
                 parentPhone: parentPhone,
@@ -401,14 +433,52 @@
                 <p><strong>Emergency Contact:</strong> ${registrationData.emergencyName}</p>
                 <p><strong>Emergency Phone:</strong> ${registrationData.emergencyPhone}</p>
                 <p><strong>Registration Date:</strong> ${registrationData.registrationDate}</p>
-                <p><strong>Registration #:</strong> ${formattedNumber}</p>
+                <p><strong>Registration ID:</strong> ${formattedNumber}</p>
                 <p><strong>Unique ID:</strong> VBS-2025-${formattedNumber}</p>
             </div>
-            <div class="unique-number">Registration #: ${formattedNumber}</div>
+            <div class="unique-number">Registration ID: ${formattedNumber}</div>
         `;
         container.appendChild(card);
     });
 }
+// Reset form for new registration
+function resetRegistrationForm() {
+    // Clear form fields
+    document.getElementById('parentName').value = '';
+    document.getElementById('parentPhone').value = '';
+    document.getElementById('emergencyName').value = '';
+    document.getElementById('emergencyPhone').value = '';
+    document.getElementById('relationship').value = '';
+    
+    // Reset children
+    children = [];
+    document.getElementById('childrenList').innerHTML = '';
+    addChild();
+    
+    // Reset payment
+    selectedPaymentMethod = '';
+    paymentAmount = 0;
+    document.querySelectorAll('.payment-option').forEach(opt => {
+        opt.classList.remove('selected');
+    });
+    document.getElementById('paymentConfirmation').style.display = 'none';
+    
+    // Update display
+    updatePaymentInfo();
+    
+    console.log('Form reset. Next registration number:', nextRegistrationNumber);
+}
+// Add this function to show current registration number status
+function showRegistrationStatus() {
+    console.log('=== REGISTRATION STATUS ===');
+    console.log('Next available registration number:', nextRegistrationNumber);
+    console.log('Total children registered so far:', nextRegistrationNumber - 1);
+    console.log('Current session children:', children.length);
+    console.log('==========================');
+}
+
+// Call this function when needed to check status
+// showRegistrationStatus();
 
         function downloadAllCards() {
             const { jsPDF } = window.jspdf;
